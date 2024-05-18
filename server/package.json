@@ -1,0 +1,34 @@
+{
+  "name": "tracking",
+  "version": "1.0.0",
+  "description": "track deliveries",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aymarc/gozem_tracking.git"
+  },
+  "keywords": [
+    "delivery",
+    "tracking",
+    "node",
+    "mongodb"
+  ],
+  "author": "Christian Hounkponou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aymarc/gozem_tracking/issues"
+  },
+  "homepage": "https://github.com/aymarc/gozem_tracking#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.1",
+    "mongoose": "^8.4.0"
+  }
+}
