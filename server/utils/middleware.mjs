@@ -2,6 +2,7 @@ import { json, raw, urlencoded } from "express";
 import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
+import mongoose from 'mongoose';
 //
 import constants from "./constants.mjs";
 
@@ -20,6 +21,7 @@ class Middleware {
         this.app.use(json());
         this.app.use(urlencoded({ extended: true }));
         this.app.use(cors());
+        this.mongoose = mongoose;
     }
 
     catchErrors() {
@@ -49,6 +51,22 @@ class Middleware {
         } catch (err) {
             next(err);
         }
+    }
+
+    dbInit() {
+        this.mongoose.connect(env.MONGO_DB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
+        this.mongoose.connection
+            .once('open', () => {
+                console.log('======Mongo DB started==========');
+            })
+            .on('error', err => {
+                throw err;
+            });
+
     }
 }
 

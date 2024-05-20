@@ -3,9 +3,9 @@
 1. [x] Install dependencies
 
 2. Create an `index.mjs` as an entry point
-    - [ ] Initialize required middlewares
+    - [x] Initialize required middlewares
     - [ ] Initialize routes
-    - [ ] Initialize REST server
+    - [x] Initialize REST server
     - [ ] Initialize Socket server
 
 3. Create a `utils` folder to hold common code
@@ -18,23 +18,23 @@
         - [x] Handle not found requests
         - [ ] Handle request logging for development and debugging purposes
     - Create a `base` file
-        - [ ] Write reusable logic for controllers
-        - [ ] Write reusable logic for services
+        - [x] Write reusable logic for controllers
+        - [x] Write reusable logic for services
     - Create a `routes` file
         - [ ] Keep all routes in one place
-    - [ ] Create an `error` file to handle all errors without much repetition
-    - [ ] Create a `constants` file to hold all constants
-    - [ ] Create a `validator` file to handle validations
-    - [ ] Create a `db` file to set up the database connection
+    - [x] Create an `error` file to handle all errors without much repetition
+    - [x] Create a `constants` file to hold all constants
+    - [x] Create a `validator` file to handle validations
+    - [x] Create a `db` file to set up the database connection
 
 4. Create modules
     - Module `delivery` as a folder
-        - [ ] Create `model` file
+        - [x] Create `model` file
         - [ ] Create `validation` file
         - [ ] Create `service` file
         - [ ] Create `index` file
     - Module `package` as a folder
-        - [ ] Create `model` file
-        - [ ] Create `validation` file
+        - [x] Create `model` file
+        - [x] Create `validation` file
         - [ ] Create `service` file
         - [ ] Create `index` file
