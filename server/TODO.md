@@ -4,7 +4,7 @@
 
 2. Create an `index.mjs` as an entry point
     - [x] Initialize required middlewares
-    - [ ] Initialize routes
+    - [x] Initialize routes
     - [x] Initialize REST server
     - [ ] Initialize Socket server
 
@@ -20,8 +20,6 @@
     - Create a `base` file
         - [x] Write reusable logic for controllers
         - [x] Write reusable logic for services
-    - Create a `routes` file
-        - [ ] Keep all routes in one place
     - [x] Create an `error` file to handle all errors without much repetition
     - [x] Create a `constants` file to hold all constants
     - [x] Create a `validator` file to handle validations
@@ -36,5 +34,5 @@
     - Module `package` as a folder
         - [x] Create `model` file
         - [x] Create `validation` file
-        - [ ] Create `service` file
-        - [ ] Create `index` file
+        - [x] Create `service` file
+        - [x] Create `index` file

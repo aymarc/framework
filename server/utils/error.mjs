@@ -5,7 +5,7 @@ export class ValidationError extends Error {
     constructor(message) {
         super(message);
         this.name = "NOT_VALID";
-        this.httpStatusCode = "400";
+        this.httpStatusCode = 400;
         Object.setPrototypeOf(this, new.target.prototype)
         Error.captureStackTrace(this)
     }
@@ -17,7 +17,7 @@ export class AuthenticationError extends Error {
     constructor(message) {
         super(message);
         this.name = "AUTHENTICATION_FAILURE";
-        this.httpStatusCode = "401";
+        this.httpStatusCode = 401;
     }
 }
 
@@ -27,7 +27,7 @@ export class NotFoundError extends Error {
     constructor(message) {
         super(message);
         this.name = "NOT_FOUND";
-        this.httpStatusCode = "404";
+        this.httpStatusCode = 404;
         Object.setPrototypeOf(this, new.target.prototype)
         Error.captureStackTrace(this)
     }
@@ -38,7 +38,7 @@ export class AccessDenied extends Error {
     constructor(message) {
         super(message);
         this.name = "NOT_ALLOWED";
-        this.httpStatusCode = "403";
+        this.httpStatusCode = 403;
         Object.setPrototypeOf(this, new.target.prototype)
         Error.captureStackTrace(this)
     }
@@ -49,7 +49,7 @@ export class ExistError extends Error {
     constructor(message) {
         super(message);
         this.name = "ENTRY_ALREADY_EXIST";
-        this.httpStatusCode = "409";
+        this.httpStatusCode = 409;
         Object.setPrototypeOf(this, new.target.prototype)
         Error.captureStackTrace(this)
     }
@@ -60,7 +60,7 @@ export class ErrorMessage extends Error {
     constructor(message) {
         super(message);
         this.name = "INTERNAL_SERVER_ERROR";
-        this.httpStatusCode = "500";
+        this.httpStatusCode = 500;
         Object.setPrototypeOf(this, new.target.prototype)
         Error.captureStackTrace(this)
     }

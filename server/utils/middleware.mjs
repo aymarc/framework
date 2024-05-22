@@ -5,8 +5,12 @@ import cors from "cors";
 import mongoose from 'mongoose';
 //
 import constants from "./constants.mjs";
+import PackageController from "../modules/package/index.mjs";
 
-const { CODE404, CODE500 } = constants;
+
+
+const { CODE404, CODE500, GENERIC_ERROR_MESSAGE, ROUTE_PREFIX } = constants;
+const packageController = new PackageController();
 
 class Middleware {
 
@@ -24,24 +28,43 @@ class Middleware {
         this.mongoose = mongoose;
     }
 
+
+
+    dbInit() {
+        this.mongoose.connect(this.env.MONGO_DB_URL);
+
+        this.mongoose.connection
+            .once('open', () => {
+                console.log('=====Mongo DB started=====');
+            })
+            .on('error', err => {
+                throw new Error(`Error Connecting to mongo db: ${err}`);
+            });
+
+    }
+
+    routesInit() {
+        this.app.use(ROUTE_PREFIX, packageController.init());
+    }
+
     catchErrors() {
         this.app.use((err, req, res, next) => {
             if (!err) {
                 return next();
             }
-            console.error(`================Error Start============= \n ${err} \n =================Error End===============`);
+            console.error(`======Error Start====== \n ${err} \n ======Error End======`);
             const message = err.httpStatusCode ? {
                 success: false,
                 info: err.message
             } : {
                 success: false,
-                info: "Sorry something went wrong"
+                info: GENERIC_ERROR_MESSAGE
             }
             res.status(err.httpStatusCode || CODE500).json(message);
         })
     }
 
-    catchNotFoundRoute() {
+    catchNotFoundError() {
         try {
             this.app.use((req, res, next) => {
                 res.status(CODE404).json({
@@ -49,24 +72,8 @@ class Middleware {
                 })
             })
         } catch (err) {
-            next(err);
+            throw new Error(`Error occurred while handling not found route '${req.originalUrl}': ${err}`);
         }
-    }
-
-    dbInit() {
-        this.mongoose.connect(env.MONGO_DB_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-
-        this.mongoose.connection
-            .once('open', () => {
-                console.log('======Mongo DB started==========');
-            })
-            .on('error', err => {
-                throw err;
-            });
-
     }
 }
 

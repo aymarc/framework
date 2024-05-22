@@ -2,25 +2,79 @@ import { Router } from "express";
 //
 import Validator from "./validator.mjs";
 import constants from "./constants.mjs";
+import { ValidationError } from "./error.mjs";
 
 const _v_ = new Validator();
 const { CODE200 } = constants;
 
 export class Controller {
-
+    routes = null;
     constructor() {
         this.routes = Router();
     }
 
-    router(path, validationSchema = null, callbackAction = null) {
-        this.routes.get(path, _v_.param(validationSchema), async (req, res, next) => {
+    route(urlPath, action, validationSchema = null, callbackAction = null) {
+        switch (action) {
+            case "GET":
+                this.#getResource(urlPath, validationSchema, callbackAction);
+                break;
+            case "POST":
+                this.#postResource(urlPath, validationSchema, callbackAction);
+                break;
+            case "PUT":
+                this.#putResource(urlPath, validationSchema, callbackAction);
+                break;
+            case "DELETE":
+                this.#deleteResource(urlPath, validationSchema, callbackAction);
+                break;
+            default:
+                throw new ValidationError("Unsupported http verb");
+        }
+
+    }
+
+    #getResource(urlPath, validationSchema, callbackAction) {
+        // console.log("validationSchema ", validationSchema)
+        this.routes.get(urlPath, _v_.validate(validationSchema), async (req, res, next) => {
             try {
-                res.status(CODE200).json(await callbackAction(req))
+                res.status(CODE200).json(await callbackAction(req, res))
             } catch (err) {
                 next(err);
             }
         })
     }
+
+    #postResource(urlPath, validationSchema, callbackAction) {
+        this.routes.post(urlPath, _v_.validate(validationSchema), async (req, res, next) => {
+            try {
+                res.status(CODE200).json(await callbackAction(req, res))
+            } catch (err) {
+                next(err);
+            }
+        })
+    }
+
+    #putResource(urlPath, validationSchema, callbackAction) {
+        this.routes.put(urlPath, _v_.validate(validationSchema), async (req, res, next) => {
+            try {
+                res.status(CODE200).json(await callbackAction(req, res))
+            } catch (err) {
+                next(err);
+            }
+        })
+    }
+
+    #deleteResource(urlPath, validationSchema, callbackAction) {
+        this.routes.delete(urlPath, _v_.validate(validationSchema), async (req, res, next) => {
+            try {
+                res.status(CODE200).json(await callbackAction(req, res))
+            } catch (err) {
+                next(err);
+            }
+        })
+    }
+
+
 }
 
 
@@ -30,7 +84,7 @@ export class Service {
         try {
             await model.create(req.body);
         } catch (err) {
-            next(err);
+            throw new Error(`Error creating resource in ${req.originalUrl}: ${err}`);
         }
     }
 
@@ -45,7 +99,7 @@ export class Service {
             }
             return result;
         } catch (err) {
-            next(err);
+            throw new Error(`Error listing resource in ${req.originalUrl}: ${err}`);
         }
     }
 
@@ -53,15 +107,15 @@ export class Service {
 
         try {
             const { filter: condition } = this.formatQueriesMg(req);
-            await model.update(
+            await model.updateMany(
                 condition,
-                { $set: body },
+                { $set: req.body },
                 { multi: true }
             );
             const result = await this.list(req, model);
             return result;
         } catch (err) {
-            next(err);
+            throw new Error(`Error updating resource ${req.originalUrl}: ${err}`);
         }
     }
 
@@ -71,7 +125,7 @@ export class Service {
             const { filter: condition } = this.formatQueriesMg(req);
             await model.deleteMany(condition);
         } catch (err) {
-            next(err);
+            throw new Error(`Error removing resource in ${req.originalUrl}: ${err}`);
         }
     }
 
@@ -148,7 +202,7 @@ export class Service {
 
             return { filter: finalFilter, skip, limit };
         } catch (err) {
-            throw new Error(err);
+            throw new Error(`Error formatting query in ${req.originalUrl}: ${err}`);
         }
     }
 

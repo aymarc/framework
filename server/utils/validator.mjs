@@ -1,3 +1,4 @@
+import { ValidationError } from "./error.mjs";
 class Validator {
     validate(schemaName) {
         if (!schemaName) {
@@ -11,27 +12,14 @@ class Validator {
                     let schema = schemaName[validationTypes[i]], content = req[validationTypes[i]];
                     const { error } = schema.validate(content);
                     if (error) {
-                        throw new Error(error.details[0].message);
+                        throw new ValidationError(error.details[0].message);
                     }
                 }
                 next();
             } catch (err) {
-                console.error("Validation error: ", err);
                 next(err);
             }
         }
     }
-
-    // body(schemaName) {
-    //     return this.#validate(schemaName, "body");
-    // }
-
-    // query(schemaName) {
-    //     return this.#validate(schemaName, "query");
-    // }
-
-    // param(schemaName) {
-    //     return this.#validate(schemaName, "param");
-    // }
 }
 export default Validator
