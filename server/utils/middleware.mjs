@@ -3,6 +3,7 @@ import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
 import mongoose from 'mongoose';
+import redis from "redis";
 //
 import constants from "./constants.mjs";
 import PackageController from "../modules/package/index.mjs";
@@ -11,6 +12,12 @@ import PackageController from "../modules/package/index.mjs";
 
 const { CODE404, CODE500, GENERIC_ERROR_MESSAGE, ROUTE_PREFIX } = constants;
 const packageController = new PackageController();
+const redisClient = redis.createClient({ url: 'redis://0.0.0.0:6379' });
+redisClient.on('error', (err) => {
+    console.log('Error occured while connecting or accessing redis server');
+});
+await redisClient.connect();
+console.log("redisClient ", redisClient.isOpen)
 
 class Middleware {
 
@@ -26,6 +33,7 @@ class Middleware {
         this.app.use(urlencoded({ extended: true }));
         this.app.use(cors());
         this.mongoose = mongoose;
+
     }
 
 
@@ -78,3 +86,4 @@ class Middleware {
 }
 
 export default Middleware;
+
