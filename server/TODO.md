@@ -36,3 +36,8 @@
         - [x] Create `validation` file
         - [x] Create `service` file
         - [x] Create `index` file
+
+5. Create a sample model for each DB  config
+    - [] Model with prisma
+    - [] Model with sequelize
+    - [] Model with mongodb
