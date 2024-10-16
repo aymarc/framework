@@ -4,13 +4,13 @@
   "description": "track deliveries",
   "main": "index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "dev": "nodemon -r dotenv/config index.mjs",
     "start": "node -r dotenv/config index.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aymarc/gozem_tracking.git"
+    "url": ""
   },
   "keywords": [
     "delivery",
@@ -21,9 +21,9 @@
   "author": "Christian Hounkponou",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aymarc/gozem_tracking/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/aymarc/gozem_tracking#readme",
+  "homepage": "",
   "dependencies": {
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -33,6 +33,10 @@
     "joi": "^17.13.1",
     "mongoose": "^8.4.0",
     "redis": "^4.6.14",
+    "sequelize": "^6.37.3",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.3"
   }
 }

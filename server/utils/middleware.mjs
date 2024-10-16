@@ -7,7 +7,7 @@ import redis from "redis";
 //
 import constants from "./constants.mjs";
 import PackageController from "../modules/package/index.mjs";
-
+import DBInit from "./DBInit.mjs";
 
 
 const { CODE404, CODE500, GENERIC_ERROR_MESSAGE, ROUTE_PREFIX } = constants;
@@ -39,16 +39,8 @@ class Middleware {
 
 
     dbInit() {
-        this.mongoose.connect(this.env.MONGO_DB_URL);
-
-        this.mongoose.connection
-            .once('open', () => {
-                console.log('=====Mongo DB started=====');
-            })
-            .on('error', err => {
-                throw new Error(`Error Connecting to mongo db: ${err}`);
-            });
-
+        const db = new DBInit();
+        db.init();
     }
 
     routesInit() {

@@ -8,10 +8,10 @@ const projectDirectory = dirname(currentModulePath);
 
 const slash = process.platform === "win32" ? "\\" : "/";
 
-export default {
+export default config = {
     NODE_ENV: process.env.NODE_ENV || "",
     API_VERSION: process.env.API_VERSION || "",
-    PORT: 4000,
+    PORT: process.env.PORT || 4000,
     APP_KEY: process.env.APP_KEY || "",
     API_VERSION: process.env.API_VERSION || "",
     MONGO_DB_URL: process.env.MONGO_DB_URL || "",
@@ -22,10 +22,10 @@ export default {
     DB_PROVIDER: process.env.DB_PROVIDER || "",
     UPLOAD_DIRECTORY: process.env.UPLOAD_DIRECTORY || `${projectDirectory}${slash}uploads${slash}`,
     MULTER_STORAGE_TYPE: 1,
-    CURRENCY: "&euro;",
     WEBSITE_TITLE: "",
     USE_PRISMA: false,
     USE_SEQUELIZE: false,
+    USE_MONGO: true,
 }
 
 /*
